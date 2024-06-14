@@ -72,17 +72,9 @@ body {
 .apologies {
   position: relative;
   animation: moveApologies 10s linear infinite;
-  white-space: nowrap; /* Prevent line breaks */
+ event line breaks */
 }
 
-@keyframes moveApologies {
-  0% {
-    left: 100%; /* Start position */
-  }
-  100% {
-    left: -100%; /* End position */
-  }
-}
 .search-input {
     width: 100%; /* Adjust the width to 100% *
     font-size: 16px; /* Font size */
@@ -127,3 +119,5 @@ body {
   width: 100%; /* Set the width of the container */
   padding-left: 30%;
 }
+ChatGPT
+ChatGPT
