@@ -52,18 +52,18 @@ font-size: 0.5rem;
 .contact-content .mail {
   color: #f0f0e6;
   padding-bottom: 0.2rem;
-  font-size: 0.5rem;
+  font-size: 0.8rem;
 }
 .contact-content .links {
   color: white;
   padding: 1rem;
   padding-bottom: 1.8rem;
-  font-size: 0.5rem;
+  font-size: 0.8rem;
 }
 .contact-content a {
   text-decoration: none;
   color: blue;
-  font-size: 0.5rem;
+  font-size: 0.8rem;
   padding: 0.5rem;
   transition: 0.3s;
   text-underline-position: below;
