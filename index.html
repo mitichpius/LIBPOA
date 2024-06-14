@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Update styles for the search form */
+        .search-form {
+            width: 90%; /* Adjust the width as needed */
+            max-width: 800px; /* Set a maximum width if desired */
+            margin: 0 auto; /* Center the form horizontally */
+        }
+
+        /* Update styles for the search button */
+        .search-form input[type="submit"] {
+            background-color: red; /* Change button background color to red */
+            color: white; /* Change button text color to white */
+            border: none; /* Remove button border */
+            padding: 10px 20px; /* Adjust padding as needed */
+            cursor: pointer;
+        }
+
+        /* Update styles for the search input */
+        .search-form input[type="text"] {
+            width: calc(100% - 120px); /* Adjust input width */
+            padding: 10px; /* Adjust padding as needed */
+            border: 1px solid #ccc; /* Add a border to the input */
+        }
+
+        /* Adjustments for responsiveness */
+        @media screen and (max-width: 600px) {
+            .search-form input[type="text"] {
+                width: calc(100% - 100px); /* Adjust input width for smaller screens */
+            }
+            .search-form input[type="submit"] {
+                width: calc(100% - 20px); /* Adjust button width for smaller screens */
+                margin-top: 10px; /* Add margin to the button */
+            }
+        }
+
+        .my-searches {
+            display: none;
+        }
+
+        .my-searches ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .my-searches li {
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .book-info {
+            margin-bottom: 20px;
+        }
+
+        /* Button styles */
+        #close-searches, #clear-searches {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #close-searches:hover, #clear-searches:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="library-section">
+        <h1>LIBPOA</h1>
+        <i>Exploring Boundless Pages, One Click Away</i>
+        <br>
+        <p>Dive into an immersive journey through the vast expanse of literary wonders with our integrated platform. <br>Discover, explore, and indulge in the world of books effortlessly, all from the comfort of your screen</p>
+       <br>
+        <h3>BOOK SHELF</h3>
+        <form class="search-form" id="search-form">
+            <input type="text" id="search-input" placeholder="Enter book name/Author's name...">
+            <input type="submit" value="Search">
+        </form>
+
+        <div class="book-results" id="book-results"></div>
+        <br>
+        <button id="my-searches-button">My previous searches</button>
+        <div class="my-searches" id="my-searches">
+            <ul id="my-searches-list"></ul>
+            <div id="search-actions" style="display: none;">
+                <button id="close-searches">Close Searches</button>
+                <button id="clear-searches">Clear Searches</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="apologies">
+        <p>All the books are not ready for reading in our shelves. Apologies for any inconvenience (Regards Pius Mitich)</p>
+    </div>
+    <br>
+    <div class="contacts">
+        <br><br><br>
+        <p class="mail">
+            <i class="fas fa-arrow-right"></i> <a href="mailto:mitichpius@gmail.com">Email: mitichpius@gmail.com</a><br><br>
+            <i class="fas fa-arrow-right"></i> <a href="tel: +254713619195" target="_blank">Call: +254713619195</a>
+        </p>
+        <br>
+        <a href="https://www.linkedin.com/in/pius-mitich-b5a3b3290?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin"></i> Linkedin</a>
+        <a href="https://www.facebook.com/profile.php?id=100078787966529" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="https://www.instagram.com/mitchi_pius?igshid=MXd2YmlmMGsyN2p1ZA==" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="http://wa.me/254713619195" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://x.com/MitichPius?t=PA7JOCZ4OIw6KZ2owALJBQ&s=09" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+        <a href="https://t.me/pius_mitich/" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+    
+    </div>
+
+    <script>
+        var mySearchesButton = document.getElementById('my-searches-button');
+        var mySearchesList = document.getElementById('my-searches-list');
+        var mySearchesHeading = document.getElementById('my-searches-heading');
+        var closeButton = document.getElementById('close-searches');
+        var clearButton = document.getElementById('clear-searches');
+        var searchActions = document.getElementById('search-actions');
+
+        mySearchesButton.addEventListener('click', function() {
+            var mySearches = document.getElementById('my-searches');
+            var displayStyle = mySearches.style.display === 'none' ? 'block' : 'none';
+            mySearches.style.display = displayStyle;
+            searchActions.style.display = displayStyle === 'block' ? 'block' : 'none';
+        });
+
+        document.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            if (event.target.id === 'search-form') {
+                var searchTerm = document.getElementById('search-input').value.trim();
+
+                // Clear book results if search term is empty
+                if (searchTerm === '') {
+                    clearBookResults();
+                    return; // Exit the function early
+                }
+
+                // Google Books API
+                fetch('https://www.googleapis.com/books/v1/volumes?q=' + searchTerm)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.items) {
+                            displayBookResults(data.items, 'Google Books');
+                        } else {
+                            console.log('No results from Google Books');
+                            clearBookResults(); // Clear book results if no results are found
+                        }
+                    });
+
+                // Save search term to My Searches
+                saveSearchTerm(searchTerm);
+            }
+        });
+
+        // Event listener for changes in search input value
+        document.getElementById('search-input').addEventListener('input', function(event) {
+            if (event.target.value.trim() === '') {
+                clearBookResults();
+            }
+        });
+
+        // Event listener for closing searches
+        closeButton.addEventListener('click', function() {
+            var mySearches = document.getElementById('my-searches');
+            var searchActions = document.getElementById('search-actions');
+            mySearches.style.display = 'none';
+            searchActions.style.display = 'none';
+        });
+
+        // Event listener for clearing searches
+        clearButton.addEventListener('click', function() {
+            localStorage.removeItem('mySearches');
+            mySearchesList.innerHTML = '<li>No recent searches</li>';
+        });
+
+        function displayBookResults(books, source) {
+            var bookResults = document.getElementById('book-results');
+            bookResults.innerHTML = '';
+            books.forEach(function(book) {
+                var title = book.volumeInfo.title || book.title;
+                var authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown Author';
+                var thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'https://via.placeholder.com/100x150';
+                var description = book.volumeInfo.description ? book.volumeInfo.description : 'No description available.';
+                var previewLink = source === 'Google Books' ? book.volumeInfo.previewLink : `https://openlibrary.org${book.key}/details/${book.key}`;
+
+                var bookDiv = document.createElement('div');
+                bookDiv.className = 'book-info';
+                bookDiv.innerHTML = `
+                    <img src="${thumbnail}" alt="${title}">
+                    <h2>${title}</h2>
+                    <p><strong>Authors:</strong> ${authors}</p>
+                    <p>${description}</p>
+                    <a href="${previewLink}" target="_blank" rel="noopener noreferrer">Check here</a>
+                `;
+                bookResults.appendChild(bookDiv);
+            });
+        }
+
+        function saveSearchTerm(searchTerm) {
+            var searches = JSON.parse(localStorage.getItem('mySearches')) || [];
+            searches.push(searchTerm);
+            localStorage.setItem('mySearches', JSON.stringify(searches));
+            displayMySearches();
+        }
+
+        function displayMySearches() {
+            mySearchesList.innerHTML = '';
+            var searches = JSON.parse(localStorage.getItem('mySearches')) || [];
+            if (searches.length === 0) {
+                mySearchesList.innerHTML = '<li>No recent searches</li>';
+            } else {
+                searches.forEach(function(search) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = search;
+                    listItem.addEventListener('click', function() {
+                        document.getElementById('search-input').value = search;
+                        document.getElementById('search-form').dispatchEvent(new Event('submit'));
+                        document.getElementById('my-searches').style.display = 'none';
+                        document.getElementById('search-actions').style.display = 'none';
+                    });
+                    mySearchesList.appendChild(listItem);
+                });
+            }
+        }
+
+        // Function to clear book results
+        function clearBookResults() {
+            document.getElementById('book-results').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

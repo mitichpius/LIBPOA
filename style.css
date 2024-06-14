@@ -1,0 +1,129 @@
+body {
+  background-image: url(img/dba3b780-88e0-4676-92f8-43be308bf703.jpg);
+  background-size: cover;
+  font-size: larger;
+  color: white;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  font-style: unset;
+  font-family: 'Times New Roman';
+  text-align: center;
+  font-size: larger;
+}
+.library-section i
+{
+  color: #a20909;
+}
+.library-section p 
+{
+  text-align: center;
+}
+.library-section h1
+{
+  color: red;
+}
+.library-section h3
+{
+  color: blue;
+}
+.contacts
+{
+  background: black;
+  position: relative;
+  height: 60vh;
+}
+.contact-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.contact-content h2 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: white;
+  padding-bottom: 0.5rem;
+}
+.contact-content .mail {
+  color: #f0f0e6;
+  padding-bottom: 0.2rem;
+  font-size: 1rem;
+}
+.contact-content .links {
+  color: white;
+  padding: 1rem;
+  padding-bottom: 1.8rem;
+  font-size: 1.5rem;
+}
+.contact-content a {
+  text-decoration: none;
+  color: blue;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  transition: 0.3s;
+  text-underline-position: below;
+}
+.contact-content a:hover {
+  color: #f0f0e6;
+}
+.apologies {
+  position: relative;
+  animation: moveApologies 10s linear infinite;
+  white-space: nowrap; /* Prevent line breaks */
+}
+
+@keyframes moveApologies {
+  0% {
+    left: 100%; /* Start position */
+  }
+  100% {
+    left: -100%; /* End position */
+  }
+}
+.search-input {
+    width: 100%; /* Adjust the width to 100% *
+    font-size: 16px; /* Font size */
+    border-radius: 5px; /* Rounded corners */
+    border: 3px solid #a20909; /* Border color */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+.book-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.book-info {
+  width: calc(30% - 20px); /* Adjust the width of each book info */
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: black; /* Set background color to black */
+  color: white; /* Set text color to white for better contrast */
+}
+
+.book-info h2 {
+  color: red; /* Set book names to red */
+}
+
+@media screen and (max-width: 768px) {
+  .book-info {
+      width: calc(50% - 20px); /* Adjust the width for smaller screens */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .book-info {
+      width: 100%; /* Adjust the width for even smaller screens */
+  }
+}
+.my-searches
+{
+  text-align: left;
+  width: 100%; /* Set the width of the container */
+  padding-left: 30%;
+}
